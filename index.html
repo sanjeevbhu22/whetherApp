@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" integrity="sha512-PgQMlq+nqFLV4ylk1gwUOgm6CtIIXkKwaIHp/PAIWHzig/lKZSEGKEysh0TCVbHJXCLN7WetD8TFecIky75ZfQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Whether App</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            font-family:'Times New Roman', Times, serif;
+        }
+        body{
+            background: #f3f2ef;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            height: 100vh;
+            width: 100vw;
+        }
+        html,body{
+            font-size: 62.5%;
+            height: 100%;
+        }
+        html{
+            background: #eee;
+        }
+        .box{
+            width: 20vw;
+            height: 60vh;
+            border-radius: 0.5rem;
+            box-shadow: 0 0.2rem 3rem rgba(0,0,0,0.2);
+            background: #a5bbdd;
+            position: relative;
+            overflow: hidden;
+            transform: translate3d(0,0,0,);
+            min-width: 20rem;
+            min-height: 35rem;
+            margin-top: 10rem;
+        }
+        .wave{
+            opacity: 0.3;
+            position: absolute;
+            top: 120%;
+            left: 50%;
+            background: white;
+            width: 50rem;
+            height: 50rem;
+            margin-left: -25rem;
+            margin-top: -25rem;
+            transform-origin: 50% 48%;
+            border-radius: 43%;
+            animation: drift 3000ms infinite linear;
+            z-index: 1;
+        }
+        .wave -three{
+            animation: drift 5000ms infinite linear;
+            z-index: 2 !important;
+            opacity: 0.2;
+        }
+        .wave -two{
+            animation: drift 7000ms infinite linear;
+            opacity: 0.1;
+            z-index: 3 !important;
+        }
+        .box::after{
+            content: "";
+            display: block;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 11;
+            transform: translate3d(0,0,0);
+        }
+        @keyframes drift {
+            from{
+                transform: rotate(0deg);
+            }
+            from{
+                transform: rotate(360deg);
+            }
+        }
+        .info{
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 45%;
+            z-index: 4;
+        }
+        .location{
+            margin-top: 1.5rem;
+            text-align: center;
+            font-weight: 800;
+            font-size: 3rem;
+            font-size: 400;
+        }
+        .fa-street-view{
+            animation: rotates 3s linear infinite alternate;
+        }
+        @keyframes rotates {
+            from{
+                transform: translate(-0.5rem);
+            }    
+            to{
+                transform: translate(0.5rem);
+            }        
+        }
+        #date{
+            text-align: center;
+            margin-top: 0.5rem;
+            color: #57606f;
+            font-size: 1.2rem;
+            font-weight: 300;
+            text-transform: uppercase;
+        }
+        .temp{
+            margin-top: 2.5rem;
+            text-align: center;
+            font-size: 5rem;
+        }
+        .tempMinMax{
+            text-align: center;
+            margin-top: 0.3rem;
+            font-weight: 300;
+            font-size: 1.2rem;
+            color: #57606f;
+        }
+        #whethercon{
+            height: 55%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 3em;
+        }
+        #whethercon .fas{
+            font-size: 6rem;
+            animation: fas-anime 3s linear infinite alternate;
+        }
+        @keyframes fas-anime {
+            from{
+                transform: scale(0.8);
+            }
+            to{
+                transform: scale(1.2);
+            }            
+        }
+        @media(max-width:600px){
+            .box{
+                width: 90vw;
+                height: 80vh;
+            }
+            .wave{
+                top: 85%;
+            }
+            #whethercon{
+                font-size: 5em;
+            }
+            .info{
+                font-size: 1.5rem;
+            }
+        }
+        @media(max-height:500px){
+            .box{
+                height: 80vh;
+            }
+            .wave{
+                top: 115%;
+            }
+        }
+        body>span{
+            width: 100vw;
+            text-align: center;
+            color: grey;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="box">
+            <div class="wave -one"></div>
+            <div class="wave -two"></div>
+            <div class="wave -three"></div>
+        <div id="whethercon">
+            <i class="fas fa-sun" style="color: rgba(255, 238, 0, 0.87);"></i>
+        </div>
+        <div class="info">
+            <h2 class="location">
+                <i class="fas fa-street-view" style="color: #fff;"></i>{%location%},{%country%}
+            </h2>
+            <p id="date">WEB | APRL | 10:49AM</p>
+            <h1 class="temp">{%tempval%}K</h1>
+            <h3 class="tempMinMax">min {%tempmin%} | max {%tempmax%}</h3>
+        </div>
+    </div>
+    <script>
+        const currDate = document.getElementById("date");
+        const whethercon = document.getElementById("whethercon");
+        
+        const tempStatus = "{%tempstatus%}";
+
+        if(tempStatus == "Sunny"){
+            whethercon.innerHTML = "<i class='fas fa-sun' style='color: #eccc68;'></i>"
+        }
+        else if(tempStatus == "Clouds"){
+            whethercon.innerHTML = "<i class='fas fa-cloud' style='color: #f1f2f6;'></i>"
+        }
+        else if(tempStatus=="Rainy"){
+            whethercon.innerHTML = "<i class='fas fa-cloud-rain' style='color: #a4b0be;'></i>"
+        }
+        else{
+            whethercon.innerHTML = "<i class='fas fa-cloud' style='color: #44c3de;'></i>"
+        }
+        const getCurrentDay = () =>{
+            var weekDays = new Array(7);
+            weekDays[0] = "SUNDAY";
+            weekDays[1] = "MONDAY";
+            weekDays[2] = "TUESDAY";
+            weekDays[3] = "WEDNESDAY";
+            weekDays[4] = "THURSDAY";
+            weekDays[5] = "FRIDAY";
+            weekDays[6] = "SATURDAY";
+
+            var months = new Array(12);
+            months[0] = "JANUARY";
+            months[1] = "FEBRUARY";
+            months[2] = "MARCH";
+            months[3] = "APRIL";
+            months[4] = "MAY";
+            months[5] = "JUNE";
+            months[6] = "JULY";
+
+            let currTime = new Date();
+            console.log(weekDays[currTime.getDay()]);
+            // document.getElementById("date").innerHTML = weekDays[currTime.getDay()] +" " + currTime.getDate() +" "+ months[currTime.getMonth()] +" " +currTime.getHours()+":"+currTime.getMinutes();
+            const day = weekDays[currTime.getDay()];
+            const date = currTime.getDate();
+            const month = months[currTime.getMonth()];
+            return `${day} | ${date} | ${month}`
+        }
+
+        const getCurrentTime = () =>{
+            function add_leading_zero(number){
+                if(number<10){
+                    return "0"+number.toString();
+                }
+                else{
+                    return number.toString();
+                }
+            }
+            function chekAmPm(number){
+                if(number>=12){
+                    return "PM";
+                }
+                else{
+                    return "AM";
+                }
+            }
+            let currTime = new Date();
+            const h = currTime.getHours();
+            const m = currTime.getMinutes();
+            const s = currTime.getSeconds();
+
+            return `${add_leading_zero(h)}:${add_leading_zero(m)}  ${chekAmPm(h)}`
+        }
+
+        currDate.innerHTML = getCurrentTime() +" | "+getCurrentDay();
+    </script>
+    
+</body>
+</html>
